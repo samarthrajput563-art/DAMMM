@@ -1,15 +1,13 @@
 import os
 import sys
 try:
-    import google.generativeai as genai 
+    import google.generativeai as genai
 except ImportError:
     print("❌ Error: google-generativeai package is not installed. Install it with `pip install google-generativeai`.")
     sys.exit(1)
 from dotenv import load_dotenv
 
-
 load_dotenv(override=True)
-
 
 API_KEY = os.getenv("GEMINI_API_KEY")
 if not API_KEY:
@@ -18,9 +16,7 @@ if not API_KEY:
 
 genai.configure(api_key=API_KEY)
 
-
 model = genai.GenerativeModel("gemini-2.0-flash")  # or "gemini-1.5-pro" for more power
-
 
 conversation_history = []
 chat = model.start_chat(history=conversation_history)
@@ -28,6 +24,7 @@ chat = model.start_chat(history=conversation_history)
 print("🤖 Gemini Chatbot Ready!")
 print("   Type 'exit' to quit, 'clear' to reset conversation.")
 print("-" * 50)
+
 
 def get_gemini_response(user_input: str) -> str:
     """Send a message using the persistent chat session and return response."""
@@ -40,7 +37,7 @@ def get_gemini_response(user_input: str) -> str:
 
 while True:
     user_input = input("\nYou: ").strip()
-    
+
     if user_input.lower() == "exit":
         print("Goodbye! 👋")
         break
@@ -53,8 +50,8 @@ while True:
     elif not user_input:
         print("Please type something.")
         continue
-    
-    # Get and print response
+
     print("Bot: ", end="", flush=True)
     reply = get_gemini_response(user_input)
     print(reply)
+
